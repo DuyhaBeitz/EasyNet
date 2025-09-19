@@ -6,7 +6,6 @@ struct ClientData {
 
 constexpr MessageType MSSG_TEXT = MSG_USER_BASE;
 
-
 struct TextPacketData {
     char text[64] = {};
     TextPacketData(const char* str) { 
