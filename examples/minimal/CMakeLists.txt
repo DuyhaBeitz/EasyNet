@@ -1,0 +1,5 @@
+add_executable(server_minimal server_minimal.cpp)
+target_link_libraries(server_minimal PRIVATE EasyNet)
+
+add_executable(client_minimal client_minimal.cpp)
+target_link_libraries(client_minimal PRIVATE EasyNet)
