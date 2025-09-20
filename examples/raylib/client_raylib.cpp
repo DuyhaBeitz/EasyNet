@@ -32,7 +32,7 @@ int main() {
 
         client->Update();
         client->SendPacket(
-            CreatePacket<Vector2>(MSSG_VECTOR2, m_local_client_data.position)
+            CreatePacket<Vector2>(MSSG_VECTOR2, m_local_client_data.position, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT)
         );
 
         Draw();

@@ -1,6 +1,2 @@
-clear
-mkdir -p build
-cd build
-cmake ..
-make
-cd ..
+cmake -S . -B build -DEASYNET_BUILD_EXAMPLES=ON
+cmake --build build

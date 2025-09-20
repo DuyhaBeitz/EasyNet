@@ -32,7 +32,7 @@ int main(){
         for (auto& [id, client_data] : server->GetClients()) {
             server->BroadcastExcept(
                 id, 
-                CreatePacketWithID<Vector2>(MSSG_VECTOR2, id, client_data.client_data.position),
+                CreatePacketWithID<Vector2>(MSSG_VECTOR2, id, client_data.client_data.position, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT),
                 0
             );
         }
