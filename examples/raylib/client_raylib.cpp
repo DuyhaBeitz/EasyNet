@@ -1,4 +1,4 @@
-#include "ClientNetwork.hpp"
+#include "EasyNetClient.hpp"
 #include "shared_raylib.hpp"
 
 #include <memory>

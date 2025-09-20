@@ -1,4 +1,4 @@
-#include "ClientNetwork.hpp"
+#include "EasyNetClient.hpp"
 #include "shared_minimal.hpp"
 #include <memory>
 #include <iostream>

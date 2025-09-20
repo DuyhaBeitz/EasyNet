@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Shared.hpp"
+#include "EasyNetShared.hpp"
 
 #include <iostream>
 #include <unordered_map>

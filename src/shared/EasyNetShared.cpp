@@ -1,5 +1,5 @@
 #define ENET_IMPLEMENTATION
-#include "Shared.hpp"
+#include "EasyNetShared.hpp"
 
 bool EasyNetInit() {
     if (enet_initialize() != 0) {
