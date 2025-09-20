@@ -11,7 +11,7 @@ int main() {
     EasyNetInit();
     client = std::make_shared<Client>();
     client->CreateClient();
-    client->ConnectToServer();
+    while (!client->ConnectToServer());
 
     TextPacketData text_packet("Hello from client!");
     client->SendPacket(

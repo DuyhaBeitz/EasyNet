@@ -16,7 +16,6 @@ private:
 
     // Enet stuff
     const int m_server_port = 7777;
-
     ENetAddress m_address;
     ENetHost *m_server = nullptr;
 
@@ -29,7 +28,6 @@ private:
     std::function<void(ENetEvent event)> m_customDisconnect = 0;
     std::function<void(ENetEvent event)> m_customReceive = 0;
 
-    // Logic stuff
     std::unordered_map<uint32_t, Client> m_clients;
 
 public:

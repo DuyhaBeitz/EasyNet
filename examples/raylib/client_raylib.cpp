@@ -10,6 +10,7 @@ ClientData m_local_client_data;
 std::shared_ptr<Client> client;
 
 bool Init();
+void DrawLoading();
 void Draw();
 void OnRecieve(ENetEvent event);
 
@@ -17,8 +18,9 @@ int main() {
     if (!Init()) {
         return 1;
     }
+    DrawLoading();
 
-    client->ConnectToServer();
+    while (!client->ConnectToServer());
     client->SetOnReceive(OnRecieve);
 
     m_local_client_data.position.x = GetScreenWidth() / 2;
@@ -78,7 +80,15 @@ bool Init() {
     return true;
 }
 
-void Draw() {
+void DrawLoading() {
+    BeginDrawing();
+    ClearBackground(DARKGRAY);
+    DrawText("Connecting...", 100, 100, 64, WHITE);
+    EndDrawing();
+}
+
+void Draw()
+{
     BeginDrawing();
     ClearBackground(LIGHTGRAY);
 

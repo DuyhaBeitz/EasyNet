@@ -22,6 +22,7 @@ bool Client::ConnectToServer(){
             }
             else {
                 std::cerr << "Failed to connect!" << std::endl;
+                enet_peer_reset(m_peer);
                 m_peer = nullptr;
             }
         }
