@@ -15,7 +15,7 @@ private:
     };
 
     // Enet stuff
-    const int m_server_port = 7777;
+    int m_server_port;
     ENetAddress m_address;
     ENetHost *m_server = nullptr;
 
@@ -31,7 +31,7 @@ private:
     std::unordered_map<uint32_t, Client> m_clients;
 
 public:
-    bool CreateServer();
+    bool CreateServer(const int port = 7777);
     void Update();
 
     void SetOnConnect(std::function<void(ENetEvent event)> OnConnect) { m_customConnect = OnConnect; }
@@ -48,9 +48,10 @@ public:
 };
 
 template<typename T>
-bool Server<T>::CreateServer(){
+bool Server<T>::CreateServer(const int port){
     m_address.host = ENET_HOST_ANY;
     //enet_address_set_host(&m_address, "0.0.0.0"));
+    m_server_port = port;
     m_address.port = m_server_port;
 
     m_server = enet_host_create(&m_address, 32, 1, 0, 0);
