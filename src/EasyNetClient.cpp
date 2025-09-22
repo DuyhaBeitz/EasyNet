@@ -6,7 +6,8 @@ bool Client::CreateClient(){
     return bool(m_client);
 }
 
-bool Client::ConnectToServer(){
+bool Client::ConnectToServer(std::string server_ip){
+    strcpy(m_server_ip, server_ip.c_str());
     std::cout << "Connecting to server" << std::endl;
     if (m_client) {
         enet_address_set_host(&m_address, m_server_ip);

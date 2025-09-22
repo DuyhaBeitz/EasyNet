@@ -7,7 +7,7 @@
 class Client {
 private:
     const int m_server_port = 7777;
-    const char m_server_ip[64] = "127.0.0.1";
+    char m_server_ip[64];
 
     ENetAddress m_address;
     ENetPeer *m_peer = nullptr; // client's peer is the server
@@ -24,7 +24,7 @@ private:
 
 public:
     bool CreateClient();
-    bool ConnectToServer();
+    bool ConnectToServer(std::string server_ip = "127.0.0.1");
     void DisconnectFromServer();
 
     void Update();
