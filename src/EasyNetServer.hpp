@@ -49,8 +49,8 @@ public:
 
 template<typename T>
 bool Server<T>::CreateServer(){
-    //m_address.host = ENET_HOST_ANY;
-    enet_address_set_host(&m_address, "127.0.0.1");
+    m_address.host = ENET_HOST_ANY;
+    //enet_address_set_host(&m_address, "0.0.0.0"));
     m_address.port = m_server_port;
 
     m_server = enet_host_create(&m_address, 32, 1, 0, 0);
