@@ -6,7 +6,7 @@
 
 class Client {
 private:
-    const int m_server_port = 7777;
+    int m_server_port;
     char m_server_ip[64];
 
     ENetAddress m_address;
@@ -24,7 +24,7 @@ private:
 
 public:
     bool CreateClient();
-    bool ConnectToServer(std::string server_ip = "127.0.0.1");
+    bool ConnectToServer(std::string server_ip = "127.0.0.1", int server_port = 7777);
     void DisconnectFromServer();
 
     void Update();
