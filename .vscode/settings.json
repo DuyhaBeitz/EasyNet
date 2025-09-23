@@ -60,6 +60,12 @@
         "semaphore": "cpp",
         "sstream": "cpp",
         "stop_token": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "condition_variable": "cpp",
+        "map": "cpp",
+        "fstream": "cpp",
+        "mutex": "cpp",
+        "print": "cpp",
+        "cinttypes": "cpp"
     }
 }

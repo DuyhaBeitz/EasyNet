@@ -1,6 +1,6 @@
 #pragma once
 #include "enet/enet.h"
-#include <string>
+#include "EasyNetLog.hpp"
 
 #include <cstring> // For memcpy
 #include <type_traits> // For static_assert

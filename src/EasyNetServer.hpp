@@ -93,9 +93,9 @@ template<typename T>
 void Server<T>::HandleConnect(ENetEvent event){
     char new_connection_ip[64];
     if (enet_address_get_host_ip(&event.peer->address, new_connection_ip, sizeof(new_connection_ip)) == 0) {
-        std::cout << "Client connected: " << new_connection_ip << std::endl;
+        EasyNetLog(Info, "Client connected: {}", new_connection_ip);
     } else {
-        std::cerr << "Failed to get IP address of connected client\n";
+        EasyNetLog(Info, "Failed to get IP address of connected client");
     }
 
     uint32_t new_id = enet_peer_get_id(event.peer);
@@ -122,7 +122,7 @@ void Server<T>::HandleConnect(ENetEvent event){
 template<typename T>
 void Server<T>::HandleReceive(ENetEvent event){
     if (event.packet->dataLength < 1) {
-        std::cerr << "Received packet too small!" << std::endl;
+        EasyNetLog(Error, "Received packet too small!");
         enet_packet_destroy(event.packet);
         return;
     }
@@ -133,7 +133,7 @@ void Server<T>::HandleReceive(ENetEvent event){
 
 template<typename T>
 void Server<T>::HandleDisconnectTimeout(ENetEvent event){
-    std::cout << "Timeout: ";
+    EasyNetLog(Info, "Timeout:");
     HandleDisconnect(event);
 }
 
@@ -144,9 +144,9 @@ void Server<T>::HandleDisconnect(ENetEvent event){
     BroadcastExcept(id, CreatePacketIDOnly(SC_DISCONNECT, id));
 
     if (m_clients.erase(id)) {
-        std::cout << "Client disconnected (ID: " << id << ")\n";
+        EasyNetLog(Info, "Client disconnected (ID: {})", id);
     } else {
-        std::cerr << "Disconnected client not found in map (ID: " << id << ")\n";
+        EasyNetLog(Error, "Disconnected client not found in map (ID: {})", id);
     }
     
     if (m_customDisconnect) m_customDisconnect(event);

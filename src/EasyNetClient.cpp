@@ -10,31 +10,31 @@ bool Client::ConnectToServer(std::string server_ip, int server_port){
     strcpy(m_server_ip, server_ip.c_str());
     m_server_port = server_port;
 
-    std::cout << "Connecting to server" << std::endl;
+    EasyNetLog(Trace, "Connecting to server");
     if (m_client) {
         enet_address_set_host(&m_address, m_server_ip);
         m_address.port = m_server_port;
         m_peer = enet_host_connect(m_client, &m_address, 2, 0);
 
         if (m_peer) {
-            std::cout << "Created peer" << std::endl;
+            EasyNetLog(Trace, "Created peer");
             ENetEvent event;
             if (enet_host_service(m_client, &event, 1000) > 0 && event.type == ENET_EVENT_TYPE_CONNECT){
                 HandleConnect(event);
                 return true;
             }
             else {
-                std::cerr << "Failed to connect!" << std::endl;
+                EasyNetLog(Error, "Failed to connect! (peer doesn't respond)");
                 enet_peer_reset(m_peer);
                 m_peer = nullptr;
             }
         }
         else {
-            std::cerr << "Failed to connect!" << std::endl;
+            EasyNetLog(Error, "Failed to connect!");
         }
     }
     else {
-        std::cerr << "Could not connect because client is null" << std::endl;
+        EasyNetLog(Error, "Could not connect because client is null");
     }
 
     return false;
@@ -101,17 +101,17 @@ void Client::SendPacket(ENetPacket* packet) {
 }
 
 void Client::HandleConnect(ENetEvent event){
-    std::cout << "Successfully connected!" << std::endl;
+    EasyNetLog(Trace, "Successfully connected!");
     if (m_customConnect) m_customConnect(event);
 }
 
 void Client::HandleDisconnectTimeout(ENetEvent event){
-    std::cout << "Timeout" << std::endl;
+    EasyNetLog(Trace, "Timeout:");
     HandleDisconnect(event);
 }
 
 void Client::HandleDisconnect(ENetEvent event){
-    std::cout << "Disconnected" << std::endl;
+    EasyNetLog(Trace, "Disconnected");
     if (m_customDisconnect) m_customDisconnect(event);
 }
 
