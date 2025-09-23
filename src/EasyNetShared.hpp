@@ -3,46 +3,21 @@
 #include <string>
 
 #include <cstring> // For memcpy
-#include <type_traits> // For static_asser
+#include <type_traits> // For static_assert
 #include <stdexcept>
 
-// has to be trivially copyable (so no std::string)
-
-/*
-Server is NOT authorative
-client sends thier state
-server trusts it and broadcasts it to all other clients
-*/
-
-// MessageType fits into 1 byte (2^8 = 256 more that enough)
-
-// client -> server message
-// enum C_S_MessageType : uint8_t{
-//     C_S_POSITION = 0,
-//     C_S_NAME = 1,
-// };
-
+// data has to be trivially copyable (so no std::string)
+// MessageType fits into 1 byte (2^8 = 256 more that enough?)
 // default message types
 
 bool EasyNetInit();
 
 using MessageType = uint8_t;
-
-constexpr MessageType SC_JOIN = 0;
-constexpr MessageType SC_DISCONNECT = 1;
-constexpr MessageType SC_INITIAL_SELF = 2;
-constexpr MessageType SC_INITIAL_OTHER = 3;
-constexpr MessageType MSG_USER_BASE = 100;
-
-/*
-// server -> client message
-enum S_C_MessageType : uint8_t{
-    S_C_JOIN, // when new clients joins that's what others see
-    S_C_DISCONNECT, // empy data (CreatePacketIDOnly)
-    S_C_INITIAL_SELF, // server gives a new player some initial state
-    S_C_INITIAL_OTHER, // server sends a new player initial state of other client
-};
-*/
+constexpr MessageType SC_JOIN = 0;           // when new clients joins that's what others see
+constexpr MessageType SC_DISCONNECT = 1;     // empy data (CreatePacketIDOnly)
+constexpr MessageType SC_INITIAL_SELF = 2;   // server gives a new player some initial state
+constexpr MessageType SC_INITIAL_OTHER = 3;  // server sends a new player initial state of other client
+constexpr MessageType MSG_USER_BASE = 100;   // you can define you message types starting from there
 
 template <typename T> // typename is data you are sending
 ENetPacket* CreatePacket(uint8_t msg_type, const T& data, enet_uint32 flags = ENET_PACKET_FLAG_RELIABLE);

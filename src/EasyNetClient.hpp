@@ -29,8 +29,6 @@ public:
 
     void Update();
 
-    //const std::unordered_map<uint32_t, PlayerData> & GetClients() { return m_clients; }
-
     ENetPeer *GetPeer() { return m_peer; }
     ENetHost *GetClient() { return m_client; }
     

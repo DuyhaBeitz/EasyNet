@@ -87,8 +87,7 @@ void DrawLoading() {
     EndDrawing();
 }
 
-void Draw()
-{
+void Draw() {
     BeginDrawing();
     ClearBackground(LIGHTGRAY);
 
