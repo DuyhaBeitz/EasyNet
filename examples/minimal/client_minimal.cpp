@@ -21,8 +21,8 @@ int main() {
         )
     );
 
-    while (true) {
-        client->Update();
-    }
+    client->Update();
+    client->DisconnectFromServer();
+
     return 0;
 }

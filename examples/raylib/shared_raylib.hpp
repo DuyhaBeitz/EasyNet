@@ -1,6 +1,7 @@
 #pragma once
 
 #include <raylib.h>
+#include <raymath.h>
 
 struct ClientData {
     Vector2 position;

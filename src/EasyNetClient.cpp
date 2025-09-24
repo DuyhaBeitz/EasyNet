@@ -6,11 +6,12 @@ bool Client::CreateClient(){
     return bool(m_client);
 }
 
-bool Client::ConnectToServer(std::string server_ip, int server_port){
+bool Client::RequestConnectToServer(std::string server_ip, int server_port) {
     strcpy(m_server_ip, server_ip.c_str());
     m_server_port = server_port;
 
     EasyNetLog(Trace, "Connecting to server");
+
     if (m_client) {
         enet_address_set_host(&m_address, m_server_ip);
         m_address.port = m_server_port;
@@ -18,23 +19,33 @@ bool Client::ConnectToServer(std::string server_ip, int server_port){
 
         if (m_peer) {
             EasyNetLog(Trace, "Created peer");
-            ENetEvent event;
-            if (enet_host_service(m_client, &event, 1000) > 0 && event.type == ENET_EVENT_TYPE_CONNECT){
-                HandleConnect(event);
-                return true;
-            }
-            else {
-                EasyNetLog(Error, "Failed to connect! (peer doesn't respond)");
-                enet_peer_reset(m_peer);
-                m_peer = nullptr;
-            }
+            return true;
         }
         else {
-            EasyNetLog(Error, "Failed to connect!");
+            EasyNetLog(Info, "Failed to create peer");
         }
     }
     else {
         EasyNetLog(Error, "Could not connect because client is null");
+    }
+    return false;
+}
+
+bool Client::ConnectToServer(std::string server_ip, int server_port){
+    strcpy(m_server_ip, server_ip.c_str());
+    m_server_port = server_port;
+
+    if (RequestConnectToServer(server_ip, server_port)) {
+        ENetEvent event;
+        if (enet_host_service(m_client, &event, 1000) > 0 && event.type == ENET_EVENT_TYPE_CONNECT){
+            HandleConnect(event);
+            return true;
+        }
+        else {
+            EasyNetLog(Error, "Failed to connect! (peer doesn't respond)");
+            enet_peer_reset(m_peer);
+            m_peer = nullptr;
+        }
     }
 
     return false;
@@ -73,9 +84,10 @@ void Client::DisconnectFromServer(){
 void Client::Update(){
     ENetEvent event;
     while (enet_host_service(m_client, &event, 0) > 0){
-        // NO CASE FOR CONNECTED, BECAUSE IT'S HANDLED IN connect_to_server FUNCTION !
-        // FOR DISCONNECTIONS IT'S DIFFERENT, SINCE DISCONNECTION MAY HAPPEN WITHOUT CALLING disconnect_from_server
         switch (event.type){
+            case ENET_EVENT_TYPE_CONNECT:
+                HandleConnect(event);
+                break;
 
             case ENET_EVENT_TYPE_NONE:
                 break;

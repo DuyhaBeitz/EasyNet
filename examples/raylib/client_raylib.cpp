@@ -30,7 +30,10 @@ int main() {
     while (!WindowShouldClose()) {
 
         if (!connected) {
-            if (IsKeyPressed(KEY_SPACE)) client->ConnectToServer();
+            if (IsKeyPressed(KEY_SPACE)) client->RequestConnectToServer();
+            
+            client->Update();
+
             BeginDrawing();
             DrawLoading();
             DrawLog(); 
@@ -88,7 +91,8 @@ bool Init() {
     client->SetOnReceive(OnRecieve);
     EasyNetSetLogCallback(LogCallback);
 
-    InitWindow(0, 0, "Client");
+    InitWindow(600, 600, "Client");
+    SetWindowState(FLAG_WINDOW_RESIZABLE);
     if (!IsWindowReady()) {
         std::cerr << "Failed to initialize window" << std::endl;
         return false;
@@ -99,7 +103,11 @@ bool Init() {
 
 void DrawLoading() {
     ClearBackground(DARKGRAY);
-    DrawText("Press space to connect", 1000, 100, 64, WHITE);
+    int font_size = 64;
+    const char* text = "Press space to connect";
+    float spacing = 10;
+    Vector2 size = MeasureTextEx(GetFontDefault(), text, font_size, spacing);
+    DrawTextEx(GetFontDefault(), text, Vector2{float(GetScreenWidth()), float(GetScreenHeight())} - size, font_size, spacing, WHITE);
 }
 
 void Draw() {
