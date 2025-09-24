@@ -8,34 +8,47 @@
 std::unordered_map<uint32_t, ClientData> m_clients_data;
 ClientData m_local_client_data;
 std::shared_ptr<Client> client;
+std::vector<std::string> logged_messages;
+
+bool connected = false;
 
 bool Init();
 void DrawLoading();
 void Draw();
+void DrawLog();
 void OnRecieve(ENetEvent event);
+void LogCallback(std::string msg);
 
 int main() {
     if (!Init()) {
         return 1;
     }
-    DrawLoading();
-
-    while (!client->ConnectToServer());
-    client->SetOnReceive(OnRecieve);
-
+    
     m_local_client_data.position.x = GetScreenWidth() / 2;
     m_local_client_data.position.y = GetScreenHeight() / 2;
 
     while (!WindowShouldClose()) {
-        m_local_client_data.position.x += (IsKeyDown(KEY_D) - IsKeyDown(KEY_A))/50.f;
-        m_local_client_data.position.y += (IsKeyDown(KEY_S) - IsKeyDown(KEY_W))/50.f;
 
-        client->Update();
-        client->SendPacket(
-            CreatePacket<Vector2>(MSSG_VECTOR2, m_local_client_data.position, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT)
-        );
+        if (!connected) {
+            if (IsKeyPressed(KEY_SPACE)) client->ConnectToServer();
+            BeginDrawing();
+            DrawLoading();
+            DrawLog(); 
+            EndDrawing();
+        }
+        else {
+            m_local_client_data.position.x += (IsKeyDown(KEY_D) - IsKeyDown(KEY_A))/50.f;
+            m_local_client_data.position.y += (IsKeyDown(KEY_S) - IsKeyDown(KEY_W))/50.f;
 
-        Draw();
+            client->Update();
+            client->SendPacket(
+                CreatePacket<Vector2>(MSSG_VECTOR2, m_local_client_data.position, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT)
+            );
+            BeginDrawing();
+            Draw();
+            DrawLog();
+            EndDrawing();
+        }
     }
     return 0;
 }
@@ -56,7 +69,6 @@ void OnRecieve(ENetEvent event) {
 }
 
 bool Init() {
-    std::cout << "Starting" << std::endl;
     if (!EasyNetInit()) {
         std::cerr << "Failed to initialize easy net" << std::endl;
         return false;
@@ -71,7 +83,12 @@ bool Init() {
         std::cout << "client created" << std::endl;
     }
 
-    InitWindow(1000, 1000, "Client");
+    client->SetOnConnect([](ENetEvent){connected=true;});
+    client->SetOnDisconnect([](ENetEvent){connected=false;});
+    client->SetOnReceive(OnRecieve);
+    EasyNetSetLogCallback(LogCallback);
+
+    InitWindow(0, 0, "Client");
     if (!IsWindowReady()) {
         std::cerr << "Failed to initialize window" << std::endl;
         return false;
@@ -81,14 +98,11 @@ bool Init() {
 }
 
 void DrawLoading() {
-    BeginDrawing();
     ClearBackground(DARKGRAY);
-    DrawText("Connecting...", 100, 100, 64, WHITE);
-    EndDrawing();
+    DrawText("Press space to connect", 1000, 100, 64, WHITE);
 }
 
 void Draw() {
-    BeginDrawing();
     ClearBackground(LIGHTGRAY);
 
     for (auto& [id, client_data] : m_clients_data) {
@@ -100,6 +114,16 @@ void Draw() {
     DrawCircleV(
         m_local_client_data.position, 50, GREEN
     );
+}
 
-    EndDrawing();
+void DrawLog() {
+    for (int i = 0; i < logged_messages.size(); i++) {
+        int size = 64;
+        DrawText(logged_messages[i].c_str(), 0, size*i, size, RED);
+    }
+}
+
+void LogCallback(std::string msg) {
+    logged_messages.push_back(msg);
+    std::cout << msg << std::endl;
 }
