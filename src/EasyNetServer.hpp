@@ -45,6 +45,9 @@ public:
     void SendTo(uint32_t id, ENetPacket* packet, enet_uint8 channel = 0);
     void Broadcast(ENetPacket* packet, enet_uint8 channel = 0);
     void BroadcastExcept(uint32_t except_id, ENetPacket* packet, enet_uint8 channel = 0);
+
+    void DisconnectClient(uint32_t id);
+    void DisconnectAll();
 };
 
 template<typename T>
@@ -159,9 +162,9 @@ inline void Server<T>::SendTo(uint32_t id, ENetPacket *packet, enet_uint8 channe
 
 template<typename T>
 void Server<T>::BroadcastExcept(uint32_t except_id, ENetPacket * packet, enet_uint8 channel){
-    for (auto&& entry : m_clients){
-        if (entry.first != except_id){
-            SendTo(entry.first, packet, channel);
+    for (auto& [id, client] : m_clients){
+        if (id != except_id){
+            SendTo(id, packet, channel);
         }
     }
 }
@@ -169,7 +172,19 @@ void Server<T>::BroadcastExcept(uint32_t except_id, ENetPacket * packet, enet_ui
 template <typename T>
 inline void Server<T>::Broadcast(ENetPacket *packet, enet_uint8 channel)
 {
-    for (auto&& entry : m_clients){
-        SendTo(entry.first, packet, channel);
+    for (auto& [id, client] : m_clients){
+        SendTo(id, packet, channel);
+    }
+}
+
+template <typename T>
+inline void Server<T>::DisconnectClient(uint32_t id) {
+    enet_peer_disconnect(m_clients[id].peer, 0);
+}
+
+template <typename T>
+inline void Server<T>::DisconnectAll() {
+    for (auto& [id, client] : m_clients) {
+        DisconnectClient(id);
     }
 }

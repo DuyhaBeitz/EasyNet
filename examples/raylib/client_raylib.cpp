@@ -135,5 +135,8 @@ void DrawLog() {
 
 void LogCallback(std::string msg) {
     logged_messages.push_back(msg);
+    if (logged_messages.size() > 3) {
+        logged_messages.pop_back();
+    }
     std::cout << msg << std::endl;
 }

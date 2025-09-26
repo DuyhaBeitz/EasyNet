@@ -30,11 +30,17 @@ int main(){
         server->Update();
 
         for (auto& [id, client_data] : server->GetClients()) {
-            server->BroadcastExcept(
-                id, 
-                CreatePacketWithID<Vector2>(MSSG_VECTOR2, id, client_data.client_data.position, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT),
-                0
-            );
+
+            if (client_data.client_data.position.x < 0) {
+                server->DisconnectClient(id);
+            }
+            else {
+                server->BroadcastExcept(
+                    id, 
+                    CreatePacketWithID<Vector2>(MSSG_VECTOR2, id, client_data.client_data.position, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT),
+                    0
+                );
+            }
         }
     }
     return 0;
