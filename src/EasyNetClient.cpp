@@ -51,35 +51,38 @@ bool Client::ConnectToServer(std::string server_ip, int server_port){
     return false;
 }
 
-void Client::DisconnectFromServer(){
+void Client::RequestDisconnectFromServer() {
     if (m_peer){
         enet_peer_disconnect(m_peer, 0);
-    
-        /* Allow up to 3 seconds for the disconnect to succeed
-        * and drop any packets received packets.
-        */
-        ENetEvent event;
-        while (enet_host_service(m_client, &event, 3000) > 0)
-        {
-            switch (event.type)
-            {
-            case ENET_EVENT_TYPE_RECEIVE:
-                enet_packet_destroy(event.packet);
-                break;
-            case ENET_EVENT_TYPE_DISCONNECT:
-                HandleDisconnect(event);
-                return;
-            default:
-                break;
-            }
-        }
-        /* We've arrived here, so the disconnect attempt didn't */
-        /* succeed yet.  Force the connection down.             */
-        enet_peer_reset(m_peer);
     }
 }
 
-
+void Client::DisconnectFromServer()
+{
+    RequestDisconnectFromServer();
+    
+    /* Allow up to 3 seconds for the disconnect to succeed
+    * and drop any packets received packets.
+    */
+    ENetEvent event;
+    while (enet_host_service(m_client, &event, 3000) > 0)
+    {
+        switch (event.type)
+        {
+        case ENET_EVENT_TYPE_RECEIVE:
+            enet_packet_destroy(event.packet);
+            break;
+        case ENET_EVENT_TYPE_DISCONNECT:
+            HandleDisconnect(event);
+            return;
+        default:
+            break;
+        }
+    }
+    /* We've arrived here, so the disconnect attempt didn't */
+    /* succeed yet.  Force the connection down.             */
+    enet_peer_reset(m_peer);
+}
 
 void Client::Update(){
     ENetEvent event;

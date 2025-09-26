@@ -24,9 +24,13 @@ private:
 
 public:
     bool CreateClient();
-    bool RequestConnectToServer(std::string server_ip = "127.0.0.1", int server_port = 7777); // non-blocking function
-    bool ConnectToServer(std::string server_ip = "127.0.0.1", int server_port = 7777); // blocking function, but it ensures the result
-    void DisconnectFromServer();
+    // non-blocking functions
+    bool RequestConnectToServer(std::string server_ip = "127.0.0.1", int server_port = 7777);
+    void RequestDisconnectFromServer();
+
+    // blocking functions, but they ensure the result
+    bool ConnectToServer(std::string server_ip = "127.0.0.1", int server_port = 7777);
+    void DisconnectFromServer();    
 
     void Update();
 

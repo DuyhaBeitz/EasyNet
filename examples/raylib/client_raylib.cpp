@@ -40,6 +40,8 @@ int main() {
             EndDrawing();
         }
         else {
+            if (IsKeyPressed(KEY_SPACE)) client->RequestDisconnectFromServer();
+
             m_local_client_data.position.x += (IsKeyDown(KEY_D) - IsKeyDown(KEY_A))/50.f;
             m_local_client_data.position.y += (IsKeyDown(KEY_S) - IsKeyDown(KEY_W))/50.f;
 
@@ -91,7 +93,7 @@ bool Init() {
     client->SetOnReceive(OnRecieve);
     EasyNetSetLogCallback(LogCallback);
 
-    InitWindow(600, 600, "Client");
+    InitWindow(1000, 1000, "Client");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
     if (!IsWindowReady()) {
         std::cerr << "Failed to initialize window" << std::endl;
