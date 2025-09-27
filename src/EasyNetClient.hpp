@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <functional>
 
-class Client {
+class EasyNetClient {
 private:
     int m_server_port;
     char m_server_ip[64];

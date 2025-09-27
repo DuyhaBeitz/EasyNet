@@ -1,12 +1,12 @@
 #include "EasyNetClient.hpp"
 #include <iostream>
 
-bool Client::CreateClient(){
+bool EasyNetClient::CreateClient(){
     m_client = enet_host_create(0, 1, 1, 0, 0);
     return bool(m_client);
 }
 
-bool Client::RequestConnectToServer(std::string server_ip, int server_port) {
+bool EasyNetClient::RequestConnectToServer(std::string server_ip, int server_port) {
     strcpy(m_server_ip, server_ip.c_str());
     m_server_port = server_port;
 
@@ -31,7 +31,7 @@ bool Client::RequestConnectToServer(std::string server_ip, int server_port) {
     return false;
 }
 
-bool Client::ConnectToServer(std::string server_ip, int server_port){
+bool EasyNetClient::ConnectToServer(std::string server_ip, int server_port){
     strcpy(m_server_ip, server_ip.c_str());
     m_server_port = server_port;
 
@@ -51,13 +51,13 @@ bool Client::ConnectToServer(std::string server_ip, int server_port){
     return false;
 }
 
-void Client::RequestDisconnectFromServer() {
+void EasyNetClient::RequestDisconnectFromServer() {
     if (m_peer){
         enet_peer_disconnect(m_peer, 0);
     }
 }
 
-void Client::DisconnectFromServer()
+void EasyNetClient::DisconnectFromServer()
 {
     RequestDisconnectFromServer();
     
@@ -84,7 +84,7 @@ void Client::DisconnectFromServer()
     enet_peer_reset(m_peer);
 }
 
-void Client::Update(){
+void EasyNetClient::Update(){
     ENetEvent event;
     while (enet_host_service(m_client, &event, 0) > 0){
         switch (event.type){
@@ -111,26 +111,26 @@ void Client::Update(){
     enet_host_flush(GetClient());
 }
 
-void Client::SendPacket(ENetPacket* packet) {
+void EasyNetClient::SendPacket(ENetPacket* packet) {
     enet_peer_send(GetPeer(), 0, packet);
 }
 
-void Client::HandleConnect(ENetEvent event){
+void EasyNetClient::HandleConnect(ENetEvent event){
     EasyNetLog(Trace, "Successfully connected!");
     if (m_customConnect) m_customConnect(event);
 }
 
-void Client::HandleDisconnectTimeout(ENetEvent event){
+void EasyNetClient::HandleDisconnectTimeout(ENetEvent event){
     EasyNetLog(Trace, "Timeout:");
     HandleDisconnect(event);
 }
 
-void Client::HandleDisconnect(ENetEvent event){
+void EasyNetClient::HandleDisconnect(ENetEvent event){
     EasyNetLog(Trace, "Disconnected");
     if (m_customDisconnect) m_customDisconnect(event);
 }
 
 
-void Client::HandleReceive(ENetEvent event){
+void EasyNetClient::HandleReceive(ENetEvent event){
     if (m_customReceive) m_customReceive(event);
 }

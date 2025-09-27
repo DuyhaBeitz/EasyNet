@@ -2,9 +2,7 @@
 #include "shared_minimal.hpp"
 #include <memory>
 
-typedef Server<ClientData> MyServer;
-
-std::unique_ptr<MyServer> server;
+std::unique_ptr<EasyNetServer> server;
 bool running = true;
 
 void OnRecieve(ENetEvent event);
@@ -12,7 +10,7 @@ void OnRecieve(ENetEvent event);
 int main(){
     std::cout << "Server running" << std::endl;
     EasyNetInit();
-    server = std::make_unique<MyServer>();
+    server = std::make_unique<EasyNetServer>();
     server->CreateServer();
     server->SetOnReceive(OnRecieve);
     while (running) {

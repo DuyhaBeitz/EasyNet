@@ -3,13 +3,11 @@
 #include <memory>
 #include <iostream>
 
-std::unordered_map<uint32_t, ClientData> m_clients_data;
-ClientData m_local_client_data;
-std::shared_ptr<Client> client;
+std::shared_ptr<EasyNetClient> client;
 
 int main() {
     EasyNetInit();
-    client = std::make_shared<Client>();
+    client = std::make_shared<EasyNetClient>();
     client->CreateClient();
     while (!client->ConnectToServer());
 
