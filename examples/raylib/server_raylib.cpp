@@ -37,7 +37,7 @@
 //             else {
 //                 server->BroadcastExcept(
 //                     id, 
-//                     CreatePacketWithID<Vector2>(MSSG_VECTOR2, id, client_data.client_data.position, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT),
+//                     CreatePacketWithID<Vector2>(MSG_VECTOR2, id, client_data.client_data.position, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT),
 //                     0
 //                 );
 //             }
@@ -73,7 +73,7 @@
 // void OnRecieve(ENetEvent event) {
 //     MessageType msgType = static_cast<MessageType>(event.packet->data[0]);
 //     switch (msgType) {
-//     case MSSG_VECTOR2:
+//     case MSG_VECTOR2:
 //         {
 //             Vector2 rec_position = ExtractData<Vector2>(event.packet);
 //             uint32_t id = enet_peer_get_id(event.peer);

@@ -119,3 +119,5 @@ std::pair<T, uint32_t> ExtractDataWithID(const ENetPacket* packet) {
 
     return {data, id};  // Return a pair: struct data and the id
 }
+
+MessageType ExtractMessageType(const ENetPacket* packet);

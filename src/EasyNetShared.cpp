@@ -27,3 +27,7 @@ ENetPacket *CreatePacketIDOnly(uint8_t msg_type, uint32_t id, enet_uint32 flags)
 
     return packet;
 }
+
+MessageType ExtractMessageType(const ENetPacket *packet) {
+    return static_cast<MessageType>(packet->data[0]);
+}

@@ -1,10 +1,6 @@
 #pragma once
 
-struct ClientData {
-    const char* name;
-};
-
-constexpr MessageType MSSG_TEXT = MSG_USER_BASE;
+constexpr MessageType MSG_TEXT = MSG_USER_BASE;
 
 struct TextPacketData {
     char text[64] = {};

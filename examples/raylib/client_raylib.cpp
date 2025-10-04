@@ -47,7 +47,7 @@
 
 //             client->Update();
 //             client->SendPacket(
-//                 CreatePacket<Vector2>(MSSG_VECTOR2, m_local_client_data.position, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT)
+//                 CreatePacket<Vector2>(MSG_VECTOR2, m_local_client_data.position, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT)
 //             );
 //             BeginDrawing();
 //             Draw();
@@ -61,7 +61,7 @@
 // void OnRecieve(ENetEvent event) {
 //     MessageType msgType = static_cast<MessageType>(event.packet->data[0]);
 //     switch (msgType) {
-//     case MSSG_VECTOR2:
+//     case MSG_VECTOR2:
 //         {
 //             auto&& [rec_position, id] = ExtractDataWithID<Vector2>(event.packet);
 //             m_clients_data[id].position = rec_position;

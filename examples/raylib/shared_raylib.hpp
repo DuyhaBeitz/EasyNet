@@ -7,8 +7,8 @@
 //     Vector2 position;
 // };
 
-// constexpr MessageType MSSG_TEXT = MSG_USER_BASE;
-// constexpr MessageType MSSG_VECTOR2 = MSG_USER_BASE+1;
+// constexpr MessageType MSG_TEXT = MSG_USER_BASE;
+// constexpr MessageType MSG_VECTOR2 = MSG_USER_BASE+1;
 
 // struct TextPacketData {
 //     char text[64] = {};

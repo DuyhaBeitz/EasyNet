@@ -1,26 +1,23 @@
 #include "EasyNetClient.hpp"
 #include "shared_minimal.hpp"
-#include <memory>
-#include <iostream>
 
-std::shared_ptr<EasyNetClient> client;
+EasyNetClient client;
 
 int main() {
     EasyNetInit();
-    client = std::make_shared<EasyNetClient>();
-    client->CreateClient();
-    while (!client->ConnectToServer());
+    client.CreateClient();
+    while (!client.ConnectToServer("127.0.0.1", 7777));
 
     TextPacketData text_packet("Hello from client!");
-    client->SendPacket(
+    client.SendPacket(
         CreatePacket(
-            MSSG_TEXT,
+            MSG_TEXT,
             text_packet
         )
     );
 
-    client->Update();
-    client->DisconnectFromServer();
+    client.Update();
+    client.DisconnectFromServer();
 
     return 0;
 }
