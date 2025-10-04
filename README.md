@@ -4,6 +4,9 @@ EasyNet is a C++ wrapper for enet.h, specifically this fork of it: https://githu
 It allows the programmer to skip all of the common enet.h initialization/event handling stuff and makes it easier to send and extract received data.
 EasyNet introduces high level classes for server and client, but it still exposes ENet types.
 
+In addition to examples/ there's a 3D mulitplayer game with features like client-side prediction & reconciliation
+https://github.com/DuyhaBeitz/3D-multiplayer-game
+
 Each packet has a message type, like MSG_PLAYER_JOINED or MSG_HELLO.
 There are 3 types of packets, each corresponding to two functions, for creating such packet, and extracting data from it:
 - Data only
