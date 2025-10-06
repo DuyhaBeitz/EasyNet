@@ -8,10 +8,10 @@
 
 // data has to be trivially copyable (so no std::string)
 // MessageType fits into 1 byte (2^8 = 256 more that enough?)
-// default message types
 
 bool EasyNetInit();
 
+// default message types
 using MessageType = uint8_t;
 constexpr MessageType SC_JOIN = 0;           // when new clients joins that's what others see
 constexpr MessageType SC_DISCONNECT = 1;     // empy data (CreatePacketIDOnly)
@@ -19,20 +19,21 @@ constexpr MessageType SC_INITIAL_SELF = 2;   // server gives a new player some i
 constexpr MessageType SC_INITIAL_OTHER = 3;  // server sends a new player initial state of other client
 constexpr MessageType MSG_USER_BASE = 100;   // you can define you message types starting from there
 
-template <typename T> // typename is data you are sending
+MessageType ExtractMessageType(const ENetPacket* packet);
+
+// typename is data you are sending
+template <typename T> 
 ENetPacket* CreatePacket(uint8_t msg_type, const T& data, enet_uint32 flags = ENET_PACKET_FLAG_RELIABLE);
-
-template <typename T> // typename is what data you are expecting to get
-T ExtractData(const ENetPacket* packet);
-
-
-template <typename T> // typename is data you are sending
+template <typename T>
 ENetPacket* CreatePacketWithID(uint8_t msg_type, uint32_t id, const T& data, enet_uint32 flags = ENET_PACKET_FLAG_RELIABLE);
-
 ENetPacket* CreatePacketIDOnly(uint8_t msg_type, uint32_t id, enet_uint32 flags = ENET_PACKET_FLAG_RELIABLE);
 
-template <typename T> // typename is what data you are expecting to get
+// typename is what data you are expecting to get
+template <typename T>
+T ExtractData(const ENetPacket* packet);
+template <typename T>
 std::pair<T, uint32_t> ExtractDataWithID(const ENetPacket* packet);
+uint32_t ExtractDataIdOnly(const ENetPacket* packet);
 
 // template definitions
 
@@ -119,5 +120,3 @@ std::pair<T, uint32_t> ExtractDataWithID(const ENetPacket* packet) {
 
     return {data, id};  // Return a pair: struct data and the id
 }
-
-MessageType ExtractMessageType(const ENetPacket* packet);

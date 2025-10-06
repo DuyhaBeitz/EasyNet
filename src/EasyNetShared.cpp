@@ -9,6 +9,10 @@ bool EasyNetInit() {
     return true;
 }
 
+MessageType ExtractMessageType(const ENetPacket *packet) {
+    return static_cast<MessageType>(packet->data[0]);
+}
+
 ENetPacket *CreatePacketIDOnly(uint8_t msg_type, uint32_t id, enet_uint32 flags)
 {
     size_t packetSize = sizeof(uint8_t) + sizeof(uint32_t);
@@ -28,6 +32,8 @@ ENetPacket *CreatePacketIDOnly(uint8_t msg_type, uint32_t id, enet_uint32 flags)
     return packet;
 }
 
-MessageType ExtractMessageType(const ENetPacket *packet) {
-    return static_cast<MessageType>(packet->data[0]);
+uint32_t ExtractDataIdOnly(const ENetPacket *packet) {
+    uint32_t id;
+    memcpy(&id, &packet->data[1], sizeof(uint32_t));  // Extract ID from packet
+    return id;
 }

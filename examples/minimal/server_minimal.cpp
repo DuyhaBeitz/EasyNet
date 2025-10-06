@@ -1,17 +1,17 @@
 #include <EasyNetServer.hpp>
 #include "shared_minimal.hpp"
 
-EasyNetServer server;
+EasyNetServer net_server;
 
 void OnRecieve(ENetEvent event);
 
 int main(){
     std::cout << "Server running" << std::endl;
     EasyNetInit();
-    server.CreateServer();
-    server.SetOnReceive(OnRecieve);
+    net_server.CreateServer();
+    net_server.SetOnReceive(OnRecieve);
     while (true) {
-        server.Update();
+        net_server.Update();
     }
     return 0;
 }
