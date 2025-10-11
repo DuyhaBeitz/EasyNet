@@ -2,10 +2,18 @@ cmake_minimum_required(VERSION 3.20)
 
 project(EasyNet LANGUAGES CXX VERSION 0.1)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CXX_STANDARD_REQUIRED ON)
 
 option(EASYNET_BUILD_EXAMPLES "Build examples" OFF)
+
+include(FetchContent)
+FetchContent_Declare(
+    fmt
+    GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+    GIT_TAG 12.0.0
+)
+FetchContent_MakeAvailable(fmt)
 
 file(GLOB_RECURSE SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 add_library(${PROJECT_NAME} ${SOURCES})
@@ -14,9 +22,10 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-
         $<INSTALL_INTERFACE:include>
 )
+
+target_link_libraries(${PROJECT_NAME} PUBLIC fmt::fmt)
 
 if(EASYNET_BUILD_EXAMPLES)
     add_subdirectory(examples)

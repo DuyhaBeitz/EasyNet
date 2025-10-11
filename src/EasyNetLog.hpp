@@ -1,7 +1,8 @@
 #pragma once
 
 #include <functional>
-#include <format>
+#include <fmt/core.h>
+#include <string>
 
 enum EasyNetLogLevel {
     Trace = 0,
@@ -20,7 +21,7 @@ void EasyNetDefaultLog(std::string msg);
 void EasyNetLog(EasyNetLogLevel level, std::string msg);
 
 template<typename... Args>
-void EasyNetLog(EasyNetLogLevel level, std::format_string<Args...> fmt, Args&&... args) {
-    auto msg = std::format(fmt, std::forward<Args>(args)...);
+void EasyNetLog(EasyNetLogLevel level, fmt::format_string<Args...> fmt, Args&&... args) {
+    auto msg = fmt::format(fmt, std::forward<Args>(args)...);
     EasyNetLog(level, msg);
 }
