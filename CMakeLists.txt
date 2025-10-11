@@ -7,16 +7,8 @@ set(CXX_STANDARD_REQUIRED ON)
 
 option(EASYNET_BUILD_EXAMPLES "Build examples" OFF)
 
-include(FetchContent)
-FetchContent_Declare(
-    fmt
-    GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-    GIT_TAG 12.0.0
-)
-FetchContent_MakeAvailable(fmt)
-
 file(GLOB_RECURSE SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-add_library(${PROJECT_NAME} ${SOURCES})
+add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC
@@ -25,7 +17,8 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC fmt::fmt)
+find_package(fmt)
+target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt)
 
 if(EASYNET_BUILD_EXAMPLES)
     add_subdirectory(examples)

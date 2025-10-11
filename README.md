@@ -94,3 +94,6 @@ struct TextPacketData {
 ```
 # Building & installing
 EasyNet is a cmake project, you can build it and install or use fetch_content
+
+# External dependencies
+fmt formatting library

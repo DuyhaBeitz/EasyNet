@@ -4,7 +4,6 @@
 
 #include <cstring> // For memcpy
 #include <type_traits> // For static_assert
-#include <stdexcept>
 
 // data has to be trivially copyable (so no std::string)
 // MessageType fits into 1 byte (2^8 = 256 more that enough?)
@@ -91,7 +90,7 @@ T ExtractData(const ENetPacket* packet) {
 
     // Validate that the remaining packet size matches the expected size for T
     if (dataSize != sizeof(T)) {
-        throw std::runtime_error("Packet size mismatch with expected struct size.");
+        EasyNetLog(Fatal, "Packet size mismatch with expected struct size.");
     }
 
     T data;
@@ -109,7 +108,7 @@ std::pair<T, uint32_t> ExtractDataWithID(const ENetPacket* packet) {
 
     // Validate the remaining packet size
     if (dataSize != sizeof(T)) {
-        throw std::runtime_error("Packet size mismatch with expected struct size.");
+        EasyNetLog(Fatal, "Packet size mismatch with expected struct size.");
     }
 
     uint32_t id;
