@@ -25,28 +25,28 @@ endif()
 
 
 ################################### Installation
-include(GNUInstallDirs)
+# include(GNUInstallDirs)
 
-install(TARGETS ${PROJECT_NAME}
-    EXPORT ${PROJECT_NAME}Targets
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+# install(TARGETS ${PROJECT_NAME}
+#     EXPORT ${PROJECT_NAME}Targets
+#     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+# )
 
-# Install public headers (everything in src/ that looks like a header)
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-    FILES_MATCHING PATTERN "*.hpp"
-)
+# # Install public headers (everything in src/ that looks like a header)
+# install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/
+#     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+#     FILES_MATCHING PATTERN "*.hpp"
+# )
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/enet/enet.h
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/enet/
-)
+# install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/enet/enet.h
+#     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/enet/
+# )
 
-# Generate a config file for find_package()
-install(EXPORT ${PROJECT_NAME}Targets
-    FILE ${PROJECT_NAME}Config.cmake
-    NAMESPACE ${PROJECT_NAME}::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-)
+# # Generate a config file for find_package()
+# install(EXPORT ${PROJECT_NAME}Targets
+#     FILE ${PROJECT_NAME}Config.cmake
+#     NAMESPACE ${PROJECT_NAME}::
+#     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+# )
