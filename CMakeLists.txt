@@ -17,7 +17,6 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:include>
 )
 
-find_package(fmt)
 target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt)
 
 if(EASYNET_BUILD_EXAMPLES)
