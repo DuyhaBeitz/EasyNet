@@ -1,4 +1,4 @@
-#include "EasyNetClient.hpp"
+#include "EasyNet/EasyNetClient.hpp"
 #include <iostream>
 
 bool EasyNetClient::CreateClient(){

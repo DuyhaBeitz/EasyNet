@@ -1,4 +1,4 @@
-#include "EasyNetServer.hpp"
+#include "EasyNet/EasyNetServer.hpp"
 
 
 bool EasyNetServer::CreateServer(const int port){
