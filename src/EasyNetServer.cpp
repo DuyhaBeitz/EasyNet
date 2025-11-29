@@ -89,7 +89,9 @@ void EasyNetServer::HandleDisconnect(ENetEvent event){
 }
 
 void EasyNetServer::SendTo(uint32_t id, ENetPacket *packet, enet_uint8 channel) {
-    enet_peer_send(m_peers[id], channel, packet);
+    if (enet_peer_send(m_peers[id], channel, packet) < 0) {
+        enet_packet_destroy(packet);
+    }
 }
 
 void EasyNetServer::BroadcastExcept(uint32_t except_id, ENetPacket * packet, enet_uint8 channel){

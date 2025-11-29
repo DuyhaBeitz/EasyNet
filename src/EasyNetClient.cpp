@@ -112,7 +112,9 @@ void EasyNetClient::Update(){
 }
 
 void EasyNetClient::SendPacket(ENetPacket* packet) {
-    enet_peer_send(GetPeer(), 0, packet);
+    if (enet_peer_send(GetPeer(), 0, packet) < 0) {
+        enet_packet_destroy(packet);
+    }
 }
 
 void EasyNetClient::HandleConnect(ENetEvent event){
