@@ -36,7 +36,7 @@ public:
     std::unordered_map<uint32_t, ENetPeer*>& GetPeers() { return m_peers; }
     ENetPeer* GetClient(uint32_t id) { return m_peers[id]; }
 
-    void SendTo(uint32_t id, ENetPacket* packet, enet_uint8 channel = 0);
+    bool SendTo(uint32_t id, ENetPacket* packet, enet_uint8 channel = 0);
     void Broadcast(ENetPacket* packet, enet_uint8 channel = 0);
     void BroadcastExcept(uint32_t except_id, ENetPacket* packet, enet_uint8 channel = 0);
 

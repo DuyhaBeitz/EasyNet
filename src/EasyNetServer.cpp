@@ -88,24 +88,40 @@ void EasyNetServer::HandleDisconnect(ENetEvent event){
     if (m_customDisconnect) m_customDisconnect(event);
 }
 
-void EasyNetServer::SendTo(uint32_t id, ENetPacket *packet, enet_uint8 channel) {
+bool EasyNetServer::SendTo(uint32_t id, ENetPacket *packet, enet_uint8 channel) {
     if (enet_peer_send(m_peers[id], channel, packet) < 0) {
         enet_packet_destroy(packet);
+        return false;
     }
+    return true;
 }
 
+/*
+BROADCASTING:
+Just looping through peers and calling SendTo() was wrong
+since it increased internally used packet.referenceCount
+so it's never freed, causing memory leak
+e.g. the same packet shouldn't be sent multiple times
+*/
 void EasyNetServer::BroadcastExcept(uint32_t except_id, ENetPacket * packet, enet_uint8 channel){
-    for (auto& [id, peer] : m_peers){
-        if (id != except_id){
-            SendTo(id, packet, channel);
-        }
+    for (auto& [id, peer] : m_peers) {
+        if (id == except_id) continue;
+
+        ENetPacket* cloned_packet = enet_packet_create(packet->data, packet->dataLength, packet->flags);
+        SendTo(id, cloned_packet, channel);
     }
+
+    // the original packet isn't actually used
+    enet_packet_destroy(packet);
 }
 
 void EasyNetServer::Broadcast(ENetPacket *packet, enet_uint8 channel){
-    for (auto& [id, peer] : m_peers){
-        SendTo(id, packet, channel);
+    if (m_peers.empty()) {
+        // if there are no peers, then the packet won't be added to destroy queue
+        enet_packet_destroy(packet);
+        return;
     }
+    enet_host_broadcast(m_server, channel, packet);
 }
 
 void EasyNetServer::DisconnectClient(uint32_t id) {
