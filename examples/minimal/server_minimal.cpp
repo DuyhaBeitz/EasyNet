@@ -1,4 +1,4 @@
-#include <EasyNetServer.hpp>
+#include <EasyNet/EasyNetServer.hpp>
 #include "shared_minimal.hpp"
 
 EasyNetServer net_server;

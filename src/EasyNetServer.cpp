@@ -1,6 +1,5 @@
 #include "EasyNet/EasyNetServer.hpp"
 
-
 bool EasyNetServer::CreateServer(const int port){
     m_address.host = ENET_HOST_ANY;
     //enet_address_set_host(&m_address, "0.0.0.0"));
@@ -93,7 +92,6 @@ void EasyNetServer::SendTo(uint32_t id, ENetPacket *packet, enet_uint8 channel) 
     enet_peer_send(m_peers[id], channel, packet);
 }
 
-
 void EasyNetServer::BroadcastExcept(uint32_t except_id, ENetPacket * packet, enet_uint8 channel){
     for (auto& [id, peer] : m_peers){
         if (id != except_id){
@@ -102,8 +100,7 @@ void EasyNetServer::BroadcastExcept(uint32_t except_id, ENetPacket * packet, ene
     }
 }
 
-void EasyNetServer::Broadcast(ENetPacket *packet, enet_uint8 channel)
-{
+void EasyNetServer::Broadcast(ENetPacket *packet, enet_uint8 channel){
     for (auto& [id, peer] : m_peers){
         SendTo(id, packet, channel);
     }
@@ -117,4 +114,8 @@ void EasyNetServer::DisconnectAll() {
     for (auto& [id, peer] : m_peers) {
         DisconnectClient(id);
     }
+}
+
+ENetHost *EasyNetServer::GetServer() {
+    return m_server;
 }

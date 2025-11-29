@@ -42,4 +42,5 @@ public:
 
     void DisconnectClient(uint32_t id);
     void DisconnectAll();
+    ENetHost* GetServer();
 };

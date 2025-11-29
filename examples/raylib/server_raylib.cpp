@@ -1,4 +1,4 @@
-#include <EasyNetServer.hpp>
+#include <EasyNet/EasyNetServer.hpp>
 #include "shared_raylib.hpp"
 
 #include <memory>

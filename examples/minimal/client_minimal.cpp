@@ -1,4 +1,4 @@
-#include "EasyNetClient.hpp"
+#include <EasyNet/EasyNetClient.hpp>
 #include "shared_minimal.hpp"
 
 EasyNetClient net_client;

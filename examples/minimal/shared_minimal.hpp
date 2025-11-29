@@ -1,5 +1,5 @@
 #pragma once
-#include "EasyNetShared.hpp"
+#include <EasyNet/EasyNetShared.hpp>
 
 constexpr MessageType MSG_TEXT = MSG_USER_BASE;
 
