@@ -26,6 +26,7 @@ ENetPacket* CreatePacket(uint8_t msg_type, const T& data, enet_uint32 flags = EN
 template <typename T>
 ENetPacket* CreatePacketWithID(uint8_t msg_type, uint32_t id, const T& data, enet_uint32 flags = ENET_PACKET_FLAG_RELIABLE);
 ENetPacket* CreatePacketIDOnly(uint8_t msg_type, uint32_t id, enet_uint32 flags = ENET_PACKET_FLAG_RELIABLE);
+ENetPacket* CreatePacketMsgTypeOnly(uint8_t msg_type, enet_uint32 flags = ENET_PACKET_FLAG_RELIABLE);
 
 // typename is what data you are expecting to get
 template <typename T>

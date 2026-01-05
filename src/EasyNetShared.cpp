@@ -32,6 +32,20 @@ ENetPacket *CreatePacketIDOnly(uint8_t msg_type, uint32_t id, enet_uint32 flags)
     return packet;
 }
 
+ENetPacket *CreatePacketMsgTypeOnly(uint8_t msg_type, enet_uint32 flags) {
+    size_t packetSize = sizeof(uint8_t);
+
+    uint8_t* packetData = new uint8_t[packetSize];
+
+    packetData[0] = static_cast<uint8_t>(msg_type);
+
+    ENetPacket* packet = enet_packet_create(packetData, packetSize, flags);
+
+    delete[] packetData;
+
+    return packet;
+}
+
 uint32_t ExtractDataIdOnly(const ENetPacket *packet) {
     uint32_t id;
     memcpy(&id, &packet->data[1], sizeof(uint32_t));  // Extract ID from packet
