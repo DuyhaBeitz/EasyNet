@@ -72,7 +72,7 @@ void EasyNetServer::HandleDisconnectTimeout(ENetEvent event){
 void EasyNetServer::HandleDisconnect(ENetEvent event){
     uint32_t id = enet_peer_get_id(event.peer);
 
-    BroadcastExcept(id, CreatePacketIDOnly(SC_DISCONNECT, id));
+    Broadcast(CreatePacketIDOnly(SC_DISCONNECT, id));
 
     char ip[64];
     if (enet_address_get_host_ip(&event.peer->address, ip, sizeof(ip)) == 0) {
