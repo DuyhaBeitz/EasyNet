@@ -25,7 +25,7 @@ private:
     std::unordered_map<uint32_t, ENetPeer*> m_peers;
 
 public:
-    bool CreateServer(const int port = 7777);
+    bool CreateServer(const int port = 7777, size_t max_peer_count = 32);
     void Update();
 
     void SetOnConnect(std::function<void(ENetEvent event)> OnConnect) { m_customConnect = OnConnect; }

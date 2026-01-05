@@ -1,12 +1,12 @@
 #include "EasyNet/EasyNetServer.hpp"
 
-bool EasyNetServer::CreateServer(const int port){
+bool EasyNetServer::CreateServer(const int port, size_t max_peer_count){
     m_address.host = ENET_HOST_ANY;
     //enet_address_set_host(&m_address, "0.0.0.0"));
     m_server_port = port;
     m_address.port = m_server_port;
 
-    m_server = enet_host_create(&m_address, 32, 1, 0, 0);
+    m_server = enet_host_create(&m_address, max_peer_count, 1, 0, 0);
     return bool(m_server);
 }
 
